@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'userapp',
     'notesapp',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -72,6 +73,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'post_in.wsgi.application'
 
+# переопределяем основную модель юзера
 AUTH_USER_MODEL = 'userapp.PostUser'
 
 

@@ -10,5 +10,6 @@ class Note(models.Model):
     def __str__(self):
         return self.title
 
+    # с помощью класса мета определяем параметр сортировки
     class Meta:
         ordering = ['-updated_at']

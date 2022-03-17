@@ -4,6 +4,8 @@ from django.contrib.auth.hashers import make_password
 from django.db.models import (EmailField, CharField, BooleanField, DateTimeField)
 
 
+# так как наследуемся от абстрактного юзера используем менеджер
+# чтобы изменить параметры по умолчанию
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
@@ -39,6 +41,7 @@ class UserManager(BaseUserManager):
         return user
 
 
+# наш юзер, в котором мы убрали юзернейм
 class PostUser(AbstractBaseUser):
     email = EmailField(verbose_name='email', unique=True, max_length=200)
     first_name = CharField(verbose_name='first name', max_length=250, blank=True, null=True)
@@ -66,12 +69,15 @@ class PostUser(AbstractBaseUser):
             return f'{self.first_name} {self.family_name}'
         return self.email
 
+    # функции обязательны для отображения и управления в админке
     def has_perm(self, perm, obj=None):
         return True
 
+    # функции обязательны для отображения и управления в админке
     def has_module_perms(self, app_label):
         return True
 
+    # переопределяем метод, чтобы все пороли были захэшированы
     def save(self, *args, **kwargs):
         if not self.id and not self.is_admin:
             self.password = make_password(self.password)
