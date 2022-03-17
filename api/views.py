@@ -7,13 +7,13 @@ from api.serializers import NoteSerializer
 
 
 @api_view(['GET', 'POST'])
-def notes_list(request):
+def notes_list(request, format=None):
     if request.method == 'GET':
         notes = Note.objects.all()
         serializer = NoteSerializer(notes, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
-        serializer = NoteSerializer(request.data)
+        serializer = NoteSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -21,7 +21,7 @@ def notes_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def notes_view(request, pk):
+def notes_detail(request, pk, format=None):
     try:
         note = Note.objects.get(pk=pk)
     except Note.DoesNotExist:
