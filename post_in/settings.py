@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'userapp',
     'notesapp',
     'rest_framework',
+    'api',
 ]
 
 MIDDLEWARE = [
