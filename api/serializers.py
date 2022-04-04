@@ -1,4 +1,4 @@
-from rest_framework.serializers import (IntegerField, CharField, Serializer, ModelSerializer)
+from rest_framework.serializers import (IntegerField, CharField, Serializer, ModelSerializer, HyperlinkedIdentityField)
 from notesapp.models import Note
 
 
@@ -24,3 +24,12 @@ class NoteSerializer(ModelSerializer):
     class Meta:
         model = Note
         fields = '__all__'
+
+
+# Добавляем в вывод сериалайзера только нужные поля и урл-детализации
+class ThinNoteSerializer(ModelSerializer):
+    url = HyperlinkedIdentityField(view_name='notes-detail')
+
+    class Meta:
+        model = Note
+        fields = ('url', 'id', 'title')
